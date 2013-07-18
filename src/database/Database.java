@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import javax.swing.JOptionPane;
-
 import main.Main;
 
 /**
@@ -38,8 +36,7 @@ public abstract class Database {
 		try {
 			connection = DriverManager.getConnection(URL, USER, PASSWORD);
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Can't make connection",
-							"Error make connection", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
 			return false;
 		}
 		return true;
@@ -72,9 +69,8 @@ public abstract class Database {
 			if (connection != null) {
 				connection.close();
 			}
-		} catch (SQLException ex) {
-			JOptionPane.showMessageDialog(null, "Can't close connection",
-							"Error close", JOptionPane.ERROR_MESSAGE);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 

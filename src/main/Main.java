@@ -127,5 +127,4 @@ public class Main {
 		view.setVisible(true);
 		view.setSize(table.getWidth(), 400);
 	}
-
 }

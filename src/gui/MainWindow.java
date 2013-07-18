@@ -26,7 +26,7 @@ import main.Main;
 /**
  * This is the main window
  * 
- * @author
+ * @author Jim Stanev
  *
  */
 public class MainWindow extends JFrame {
@@ -38,10 +38,9 @@ public class MainWindow extends JFrame {
 	
 	private JTextArea textArea;
 	private JTextField commandTextField;
-	public static final String SEPERATOR = "******************************\n";
 
 	public MainWindow() {
-		super("Stoixima Database");
+		super("SoccerDB");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setSize(Main.WIDTH, Main.HEIGHT);
 		this.setLayout(new BorderLayout());
@@ -52,7 +51,40 @@ public class MainWindow extends JFrame {
 
 		// buttons
 		JToolBar toolBar = new JToolBar();
+		
+		JButton insertTeam = new JButton("Insert Team");
+		insertTeam.addActionListener(new ActionListener() {
 
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				InsertTeamWindow insertTeamWindow = new InsertTeamWindow();
+				insertTeamWindow.setVisible(true);
+			}
+		});
+		toolBar.add(insertTeam);
+		
+		JButton insertGame = new JButton("Insert Game");
+		insertGame.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				InsertGameWindow insertGameWindow = new InsertGameWindow();
+				insertGameWindow.setVisible(true);
+			}
+		});
+		toolBar.add(insertGame);
+
+		JButton statistics = new JButton("Statistics");
+		statistics.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				StatisticWindow statisticWindow = new StatisticWindow();
+				statisticWindow.setVisible(true);
+			}
+		});
+		toolBar.add(statistics);
+		
 		JButton exitButton = new JButton("Exit");
 		exitButton.addActionListener(new ActionListener() {
 
@@ -75,7 +107,7 @@ public class MainWindow extends JFrame {
 		System.setOut(new PrintStream(infoScrean));
 		System.setErr(new PrintStream(infoScrean));
 
-		// command text field
+		//command text field
 		JPanel commandPanel = new JPanel();
 		commandTextField = new JTextField("", 70);
 		commandTextField.addKeyListener(keyHandler);
@@ -106,7 +138,27 @@ public class MainWindow extends JFrame {
 				}
 				
 				if (commandTextField.getText().substring(0, 6)
-						.equalsIgnoreCase("insert")) {
+						.equalsIgnoreCase("insert")||
+						commandTextField.getText().substring(0, 6)
+						.equalsIgnoreCase("update")||
+						commandTextField.getText().substring(0, 6)
+						.equalsIgnoreCase("delete")) {
+					Database db = new Database(commandTextField.getText()) {
+						
+						@Override
+						public boolean execute() {
+							try {
+								PreparedStatement ps = (PreparedStatement) connection.prepareStatement(command);
+								ps.executeUpdate();
+							} catch (SQLException e) {
+								e.printStackTrace();
+								return false;
+							}
+							return true;
+						}
+					};
+					System.out.println("Query: "+db.execute());
+					db.closeConnection();
 					
 				} else if (commandTextField.getText().substring(0, 6)
 						.equalsIgnoreCase("select")) {
@@ -119,21 +171,13 @@ public class MainWindow extends JFrame {
 								Main.showResult(ps.executeQuery());
 								return true;
 							} catch (SQLException e) {
+								e.printStackTrace();
 								return false;
-							} finally{
-								if(this.connection!=null){
-									this.closeConnection();
-								}
 							}	
 						}
 					};
-					System.out.println(db.execute());
-					
-				} else if (commandTextField.getText().substring(0, 6)
-						.equalsIgnoreCase("update")) {
-					
-				} else if (commandTextField.getText().substring(0, 6)
-						.equalsIgnoreCase("delete")) {
+					System.out.println("Select: "+db.execute());
+					db.closeConnection();
 					
 				} else if (commandTextField.getText().substring(0, 4)
 								.equalsIgnoreCase("call")){
@@ -146,15 +190,13 @@ public class MainWindow extends JFrame {
 								Main.showResult(cs.executeQuery());
 								return true;
 							} catch (SQLException e) {
+								e.printStackTrace();
 								return false;
-							} finally{
-								if(this.connection!=null){
-									this.closeConnection();
-								}
 							}	
 						}
 					};
-					System.out.println(db.execute());
+					System.out.println("Call: "+db.execute());
+					db.closeConnection();
 				}
 			}
 		}
