@@ -1,0 +1,65 @@
+-- MySQL dump 10.13  Distrib 5.5.32, for Win64 (x86)
+--
+-- Host: localhost    Database: soccerDB
+-- ------------------------------------------------------
+-- Server version	5.5.32
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `game`
+--
+
+DROP TABLE IF EXISTS `game`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `game` (
+  `round` int(11) NOT NULL,
+  `inTeam` varchar(45) NOT NULL,
+  `outTeam` varchar(45) NOT NULL,
+  `resultFH` char(1) DEFAULT NULL,
+  `resultSH` char(1) NOT NULL,
+  `inGoalFH` int(11) DEFAULT NULL,
+  `outGoalFH` int(11) DEFAULT NULL,
+  `inGoalSH` int(11) NOT NULL,
+  `outGoalSH` int(11) NOT NULL,
+  `oneCoeff` float DEFAULT NULL,
+  `xCoeff` float DEFAULT NULL,
+  `twoCoeff` float DEFAULT NULL,
+  PRIMARY KEY (`inTeam`,`outTeam`),
+  KEY `inTeam_idx` (`inTeam`),
+  KEY `outTeam_idx` (`outTeam`),
+  CONSTRAINT `inTeam` FOREIGN KEY (`inTeam`) REFERENCES `team` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `outTeam` FOREIGN KEY (`outTeam`) REFERENCES `team` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `game`
+--
+
+LOCK TABLES `game` WRITE;
+/*!40000 ALTER TABLE `game` DISABLE KEYS */;
+INSERT INTO `game` VALUES (1,'Aalesunds FK','Haugesund','x','1',0,0,3,0,1,1,1),(3,'Aalesunds FK','Honefoss','x','1',0,0,4,3,NULL,NULL,NULL),(5,'Aalesunds FK','Tromso IL','x','x',0,0,0,0,1,1,1),(5,'Haugesund','Rosenborg','x','1',0,0,3,1,1,1,1),(2,'Haugesund','Start','x','1',0,0,3,2,NULL,NULL,NULL),(4,'Honefoss','Haugesund','x','2',0,0,0,1,NULL,NULL,NULL),(2,'Honefoss','Stromsgodset','x','1',0,0,2,0,NULL,NULL,NULL),(1,'Lillestrom SK','Sarpsborg','x','x',0,0,2,2,1,1,1),(4,'Lillestrom SK','SK Brann','x','1',0,0,2,0,NULL,NULL,NULL),(6,'Lillestrom SK','Start','x','1',0,0,3,2,1,1,1),(3,'Lillestrom SK','Viking FK','x','2',0,0,0,1,NULL,NULL,NULL),(2,'Molde','Lillestrom SK','x','2',0,0,1,2,NULL,NULL,NULL),(4,'Molde','Sogndal','x','2',0,0,1,2,NULL,NULL,NULL),(6,'Molde','Stromsgodset','x','2',0,0,1,2,1,1,1),(5,'Odd Grenland','Molde','x','x',0,0,1,1,1,1,1),(1,'Odd Grenland','Rosenborg','x','2',0,0,0,1,1,1,1),(3,'Odd Grenland','Valerenga','x','1',0,0,2,0,NULL,NULL,NULL),(6,'Rosenborg','Sandnes Ulf','x','2',0,0,0,1,1,1,1),(2,'Rosenborg','SK Brann','x','1',0,0,4,0,NULL,NULL,NULL),(4,'Rosenborg','Start','x','x',0,0,1,1,NULL,NULL,NULL),(2,'Sandnes Ulf','Aalesunds FK','x','2',0,0,0,1,NULL,NULL,NULL),(3,'Sandnes Ulf','Haugesund','x','x',0,0,1,1,NULL,NULL,NULL),(5,'Sandnes Ulf','Honefoss','x','x',0,0,1,1,1,1,1),(4,'Sarpsborg','Aalesunds FK','x','2',0,0,0,2,NULL,NULL,NULL),(6,'Sarpsborg','Honefoss','x','x',0,0,1,1,1,1,1),(2,'Sarpsborg','Viking FK','x','1',0,0,2,1,NULL,NULL,NULL),(3,'SK Brann','Molde','x','1',0,0,1,0,NULL,NULL,NULL),(6,'SK Brann','Odd Grenland','x','1',0,0,2,0,1,1,1),(1,'SK Brann','Valerenga','x','1',0,0,3,1,1,1,1),(5,'SK Brann','Viking FK','x','1',0,0,2,0,1,1,1),(3,'Sogndal','Rosenborg','x','2',0,0,0,4,NULL,NULL,NULL),(5,'Sogndal','Sarpsborg','x','x',0,0,0,0,1,1,1),(1,'Sogndal','Tromso IL','x','x',0,0,2,2,1,1,1),(1,'Start','Honefoss','x','1',0,0,3,2,1,1,1),(3,'Start','Tromso IL','x','x',0,0,2,2,NULL,NULL,NULL),(5,'Start','Valerenga','x','1',0,0,1,0,1,1,1),(5,'Stromsgodset','Lillestrom SK','x','1',0,0,1,0,1,1,1),(1,'Stromsgodset','Sandnes Ulf','x','1',0,0,2,0,1,1,1),(3,'Stromsgodset','Sarpsborg','x','x',0,0,1,1,NULL,NULL,NULL),(6,'Tromso IL','Haugesund','x','1',0,0,2,1,1,1,1),(2,'Tromso IL','Odd Grenland','x','1',0,0,2,1,NULL,NULL,NULL),(4,'Tromso IL','Sandnes Ulf','x','2',0,0,0,1,NULL,NULL,NULL),(6,'Valerenga','Aalesunds FK','x','1',0,0,2,1,1,1,1),(2,'Valerenga','Sogndal','x','1',0,0,1,0,NULL,NULL,NULL),(4,'Valerenga','Stromsgodset','x','2',0,0,0,3,NULL,NULL,NULL),(1,'Viking FK','Molde','x','1',0,0,2,1,1,1,1),(4,'Viking FK','Odd Grenland','x','1',0,0,1,0,NULL,NULL,NULL),(6,'Viking FK','Sogndal','x','1',0,0,4,1,1,1,1);
+/*!40000 ALTER TABLE `game` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2013-07-20 10:57:51
