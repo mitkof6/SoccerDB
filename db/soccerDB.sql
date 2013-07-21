@@ -37,6 +37,9 @@ CREATE  TABLE IF NOT EXISTS `soccerDB`.`Game` (
   `oneCoeff` FLOAT NULL ,
   `xCoeff` FLOAT NULL ,
   `twoCoeff` FLOAT NULL ,
+  `oneCoeffFH` FLOAT NULL ,
+  `xCoeffFH` FLOAT NULL ,
+  `twoCoeffFH` FLOAT NULL ,
   PRIMARY KEY (`inTeam`, `outTeam`) ,
   INDEX `inTeam_idx` (`inTeam` ASC) ,
   INDEX `outTeam_idx` (`outTeam` ASC) ,
@@ -61,6 +64,7 @@ DROP TABLE IF EXISTS `soccerDB`.`Statistics` ;
 CREATE  TABLE IF NOT EXISTS `soccerDB`.`Statistics` (
   `round` INT NOT NULL ,
   `league` VARCHAR(10) NOT NULL ,
+  `fh` TINYINT(1) NOT NULL ,
   `real` VARCHAR(15) NOT NULL ,
   `logic` VARCHAR(15) NOT NULL ,
   `min` FLOAT NOT NULL ,
@@ -81,7 +85,7 @@ CREATE  TABLE IF NOT EXISTS `soccerDB`.`Statistics` (
   `nl` INT NOT NULL ,
   `sp1` INT NOT NULL ,
   `sp2` INT NOT NULL ,
-  PRIMARY KEY (`round`, `league`) )
+  PRIMARY KEY (`round`, `league`, `fh`) )
 ENGINE = InnoDB;
 
 
@@ -676,37 +680,37 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `soccerDB`;
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (1, 'Viking FK', 'Molde', 'x', '1', 0, 0, 2, 1, 1, 1, 1);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (1, 'Aalesunds FK', 'Haugesund', 'x', '1', 0, 0, 3, 0, 1, 1, 1);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (1, 'SK Brann', 'Valerenga', 'x', '1', 0, 0, 3, 1, 1, 1, 1);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (1, 'Lillestrom SK', 'Sarpsborg', 'x', 'x', 0, 0, 2, 2, 1, 1, 1);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (1, 'Odd Grenland', 'Rosenborg', 'x', '2', 0, 0, 0, 1, 1, 1, 1);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (1, 'Sogndal', 'Tromso IL', 'x', 'x', 0, 0, 2, 2, 1, 1, 1);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (1, 'Stromsgodset', 'Sandnes Ulf', 'x', '1', 0, 0, 2, 0, 1, 1, 1);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (1, 'Start', 'Honefoss', 'x', '1', 0, 0, 3, 2, 1, 1, 1);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (2, 'Rosenborg', 'SK Brann', 'x', '1', 0, 0, 4, 0, NULL, NULL, NULL);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (2, 'Sandnes Ulf', 'Aalesunds FK', 'x', '2', 0, 0, 0, 1, NULL, NULL, NULL);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (2, 'Tromso IL', 'Odd Grenland', 'x', '1', 0, 0, 2, 1, NULL, NULL, NULL);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (2, 'Valerenga', 'Sogndal', 'x', '1', 0, 0, 1, 0, NULL, NULL, NULL);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (2, 'Sarpsborg', 'Viking FK', 'x', '1', 0, 0, 2, 1, NULL, NULL, NULL);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (2, 'Honefoss', 'Stromsgodset', 'x', '1', 0, 0, 2, 0, NULL, NULL, NULL);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (2, 'Molde', 'Lillestrom SK', 'x', '2', 0, 0, 1, 2, NULL, NULL, NULL);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (2, 'Haugesund', 'Start', 'x', '1', 0, 0, 3, 2, NULL, NULL, NULL);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (3, 'Odd Grenland', 'Valerenga', 'x', '1', 0, 0, 2, 0, NULL, NULL, NULL);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (3, 'SK Brann', 'Molde', 'x', '1', 0, 0, 1, 0, NULL, NULL, NULL);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (3, 'Start', 'Tromso IL', 'x', 'x', 0, 0, 2, 2, NULL, NULL, NULL);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (3, 'Aalesunds FK', 'Honefoss', 'x', '1', 0, 0, 4, 3, NULL, NULL, NULL);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (3, 'Lillestrom SK', 'Viking FK', 'x', '2', 0, 0, 0, 1, NULL, NULL, NULL);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (3, 'Sandnes Ulf', 'Haugesund', 'x', 'x', 0, 0, 1, 1, NULL, NULL, NULL);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (3, 'Sogndal', 'Rosenborg', 'x', '2', 0, 0, 0, 4, NULL, NULL, NULL);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (3, 'Stromsgodset', 'Sarpsborg', 'x', 'x', 0, 0, 1, 1, NULL, NULL, NULL);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (4, 'Rosenborg', 'Start', 'x', 'x', 0, 0, 1, 1, NULL, NULL, NULL);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (4, 'Molde', 'Sogndal', 'x', '2', 0, 0, 1, 2, NULL, NULL, NULL);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (4, 'Valerenga', 'Stromsgodset', 'x', '2', 0, 0, 0, 3, NULL, NULL, NULL);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (4, 'Honefoss', 'Haugesund', 'x', '2', 0, 0, 0, 1, NULL, NULL, NULL);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (4, 'Lillestrom SK', 'SK Brann', 'x', '1', 0, 0, 2, 0, NULL, NULL, NULL);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (4, 'Tromso IL', 'Sandnes Ulf', 'x', '2', 0, 0, 0, 1, NULL, NULL, NULL);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (4, 'Viking FK', 'Odd Grenland', 'x', '1', 0, 0, 1, 0, NULL, NULL, NULL);
-INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`) VALUES (4, 'Sarpsborg', 'Aalesunds FK', 'x', '2', 0, 0, 0, 2, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (1, 'Viking FK', 'Molde', 'x', '1', 0, 0, 2, 1, 1, 1, 1, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (1, 'Aalesunds FK', 'Haugesund', 'x', '1', 0, 0, 3, 0, 1, 1, 1, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (1, 'SK Brann', 'Valerenga', 'x', '1', 0, 0, 3, 1, 1, 1, 1, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (1, 'Lillestrom SK', 'Sarpsborg', 'x', 'x', 0, 0, 2, 2, 1, 1, 1, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (1, 'Odd Grenland', 'Rosenborg', 'x', '2', 0, 0, 0, 1, 1, 1, 1, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (1, 'Sogndal', 'Tromso IL', 'x', 'x', 0, 0, 2, 2, 1, 1, 1, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (1, 'Stromsgodset', 'Sandnes Ulf', 'x', '1', 0, 0, 2, 0, 1, 1, 1, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (1, 'Start', 'Honefoss', 'x', '1', 0, 0, 3, 2, 1, 1, 1, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (2, 'Rosenborg', 'SK Brann', 'x', '1', 0, 0, 4, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (2, 'Sandnes Ulf', 'Aalesunds FK', 'x', '2', 0, 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (2, 'Tromso IL', 'Odd Grenland', 'x', '1', 0, 0, 2, 1, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (2, 'Valerenga', 'Sogndal', 'x', '1', 0, 0, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (2, 'Sarpsborg', 'Viking FK', 'x', '1', 0, 0, 2, 1, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (2, 'Honefoss', 'Stromsgodset', 'x', '1', 0, 0, 2, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (2, 'Molde', 'Lillestrom SK', 'x', '2', 0, 0, 1, 2, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (2, 'Haugesund', 'Start', 'x', '1', 0, 0, 3, 2, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (3, 'Odd Grenland', 'Valerenga', 'x', '1', 0, 0, 2, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (3, 'SK Brann', 'Molde', 'x', '1', 0, 0, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (3, 'Start', 'Tromso IL', 'x', 'x', 0, 0, 2, 2, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (3, 'Aalesunds FK', 'Honefoss', 'x', '1', 0, 0, 4, 3, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (3, 'Lillestrom SK', 'Viking FK', 'x', '2', 0, 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (3, 'Sandnes Ulf', 'Haugesund', 'x', 'x', 0, 0, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (3, 'Sogndal', 'Rosenborg', 'x', '2', 0, 0, 0, 4, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (3, 'Stromsgodset', 'Sarpsborg', 'x', 'x', 0, 0, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (4, 'Rosenborg', 'Start', 'x', 'x', 0, 0, 1, 1, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (4, 'Molde', 'Sogndal', 'x', '2', 0, 0, 1, 2, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (4, 'Valerenga', 'Stromsgodset', 'x', '2', 0, 0, 0, 3, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (4, 'Honefoss', 'Haugesund', 'x', '2', 0, 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (4, 'Lillestrom SK', 'SK Brann', 'x', '1', 0, 0, 2, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (4, 'Tromso IL', 'Sandnes Ulf', 'x', '2', 0, 0, 0, 1, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (4, 'Viking FK', 'Odd Grenland', 'x', '1', 0, 0, 1, 0, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `soccerDB`.`Game` (`round`, `inTeam`, `outTeam`, `resultFH`, `resultSH`, `inGoalFH`, `outGoalFH`, `inGoalSH`, `outGoalSH`, `oneCoeff`, `xCoeff`, `twoCoeff`, `oneCoeffFH`, `xCoeffFH`, `twoCoeffFH`) VALUES (4, 'Sarpsborg', 'Aalesunds FK', 'x', '2', 0, 0, 0, 2, NULL, NULL, NULL, NULL, NULL, NULL);
 
 COMMIT;

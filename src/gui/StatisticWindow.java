@@ -40,7 +40,7 @@ public class StatisticWindow extends JFrame{
 	private ButtonHandler handler;
 	private JLabel status;
 	private boolean flagNew = false;
-	private String round, league;
+	private String round, league, result;
 	
 	/**
 	 * Constructor
@@ -171,9 +171,9 @@ public class StatisticWindow extends JFrame{
 					public boolean execute() {
 						round = JOptionPane.showInputDialog("Round?");
 						league = JOptionPane.showInputDialog("League?");
-						String result = JOptionPane.showInputDialog("resultFH/resultSH?");
+						result = JOptionPane.showInputDialog("resultFH/resultSH?");
 						this.command = 
-							"SELECT inTeam, "+result+", oneCoeff, xCoeff, twoCoeff "+
+							"SELECT * "+
 							"FROM Game JOIN Team ON name = inTeam "+
 							"WHERE round = '"+round+"' AND league = '"+league+"'";
 						try {
@@ -184,11 +184,14 @@ public class StatisticWindow extends JFrame{
 							while(rs.next()){
 								table.getModel().setValueAt(rs.getObject(result),i,1);
 								table.getModel().setValueAt(
-									String.format(Locale.US, "%.2f", rs.getObject("oneCoeff")),i,2);
+									String.format(Locale.US, "%.2f", rs.getObject(
+													result.equalsIgnoreCase("resultSH") ? "oneCoeff":"oneCoeffFH")),i,2);
 								table.getModel().setValueAt(
-									String.format(Locale.US, "%.2f", rs.getObject("xCoeff")),i,3);
+									String.format(Locale.US, "%.2f", rs.getObject(
+													result.equalsIgnoreCase("resultSH") ? "xCoeff":"xCoeffFH")),i,3);
 								table.getModel().setValueAt(
-									String.format(Locale.US, "%.2f", rs.getObject("twoCoeff")),i,4);
+									String.format(Locale.US, "%.2f", rs.getObject(
+													result.equalsIgnoreCase("resultSH") ? "twoCoeff":"twoCoeffFH")),i,4);
 								i++;
 							}
 						} catch (SQLException e) {
@@ -257,11 +260,13 @@ public class StatisticWindow extends JFrame{
 							real += table.getModel().getValueAt(i, 1)+" ";
 							logic += table.getModel().getValueAt(i, 5)+" ";
 						}
+						String res = result.equalsIgnoreCase("resultSH") ? "0" : "1";
 						
 						command = 
 							"INSERT INTO Statistics VALUES('"+
 							round+"', '"+
 							league+"', '"+
+							res+"', '"+
 							real+"', '"+
 							logic+"', '"+
 							resultTable.getModel().getValueAt(0, 1)+"', '"+

@@ -40,7 +40,7 @@ public class InsertGameWindow extends JFrame{
 		super("Insert Game");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setLayout(new BorderLayout());
-		this.setSize(Main.WIDTH, Main.HEIGHT);
+		this.setSize(Main.WIDTH+200, Main.HEIGHT);
 		//Table
 		String[] columnNames = {
 						"round",
@@ -54,11 +54,14 @@ public class InsertGameWindow extends JFrame{
 						"outGoalSH",
 						"oneCoeff",
 						"xCoeff",
-						"twoCoeff"};
+						"twoCoeff",
+						"oneCoeffFX",
+						"xCoeffFX",
+						"twoCoeffFX"};
 		
 		final String games = JOptionPane.showInputDialog("How many games?");
 		
-		data = new Object[Integer.parseInt(games)][12];
+		data = new Object[Integer.parseInt(games)][columnNames.length];
 		table = new JTable(data, columnNames);
 		table.setSize(COLUMN_WIDTH, COLUMN_HEIGHT);
 		JScrollPane scrollPane = new JScrollPane(table);
@@ -77,9 +80,10 @@ public class InsertGameWindow extends JFrame{
 					public boolean execute() {
 						for(int i = 0;i<Integer.parseInt(games);i++){
 							try {
-								this.command = 
+								command = 
 									"INSERT INTO Game(round, inTeam, outTeam, resultFH, resultSH, " +
-									"inGoalFH, outGoalFH, inGoalSH, outGoalSH, oneCoeff, xCoeff, twoCoeff) " +
+									"inGoalFH, outGoalFH, inGoalSH, outGoalSH, oneCoeff, xCoeff, " +
+									"twoCoeff, oneCoeffFH, xCoeffFH, twoCoeffFH) " +
 									"VALUES('"+
 									get(i,0)+"', '"+
 									get(i,1)+"', '"+
@@ -92,7 +96,11 @@ public class InsertGameWindow extends JFrame{
 									get(i,8)+"', '"+
 									get(i,9)+"', '"+
 									get(i,10)+"', '"+
-									get(i,11)+"')";
+									get(i,11)+"', '"+
+									get(i,12)+"', '"+
+									get(i,13)+"', '"+
+									get(i,14)+"')";
+								System.out.println(command);
 								PreparedStatement ps = 
 									(PreparedStatement) connection.prepareStatement(command);
 								ps.executeUpdate();
